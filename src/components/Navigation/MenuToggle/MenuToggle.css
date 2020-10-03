@@ -1,0 +1,22 @@
+.menuToggle {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    font-size: 20px ;
+    cursor: pointer;
+    color: #fff;
+    transition: all .37s ease-in;
+    z-index: 100;
+}
+
+.menuToggle:hover {
+    opacity: .7;
+}
+
+.menuToggle.open {
+    left: 320px;
+}
+
+.MuiSvgIcon-root {
+    font-size: 2.2rem !important;
+}
