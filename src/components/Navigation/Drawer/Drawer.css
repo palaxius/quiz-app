@@ -16,6 +16,10 @@
     transform: translateX(-300px);
 }
 
+.drawer ul li {
+    padding-bottom: 15px;
+}
+
 .drawer ul li a {
     color: #363d54;
     font-size: 30px;

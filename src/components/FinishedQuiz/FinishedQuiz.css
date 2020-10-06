@@ -11,6 +11,7 @@
 
 .finishedQuiz ul li {
     display: flex;
+    align-items: center;
 }
 
 .finishedQuiz ul li i {
@@ -23,4 +24,9 @@
 
 .error {
     color: rgba(240, 87, 108, .7);
+}
+
+.MuiSvgIcon-root.error,
+.MuiSvgIcon-root.success {
+    font-size: 1.7rem !important;
 }

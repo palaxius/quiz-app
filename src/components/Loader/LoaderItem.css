@@ -1,0 +1,32 @@
+@keyframes loader {
+    0% { transform: rotate(0deg) }
+    50% { transform: rotate(180deg) }
+    100% { transform: rotate(360deg) }
+}
+.loader div {
+    position: absolute;
+    animation: loader 1.07s linear infinite;
+    width: 93.38px;
+    height: 93.38px;
+    top: 54.809999999999995px;
+    left: 54.809999999999995px;
+    border-radius: 50%;
+    box-shadow: 0 5.684px 0 0 #1c4595;
+    transform-origin: 46.69px 49.53199999999999px;
+}
+.loader__wrapper {
+    width: 203px;
+    height: 203px;
+    display: inline-block;
+    overflow: hidden;
+}
+.loader {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0;
+}
+.loader div { box-sizing: content-box; }
+
