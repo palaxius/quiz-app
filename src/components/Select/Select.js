@@ -5,7 +5,7 @@ const Select = ({label, value, onChange, options}) => {
   const htmlFor = `${label}-${Math.random()}`
   return (
     <div className='select'>
-      <label htmlFor={htmlFor}>label</label>
+      <label htmlFor={htmlFor}>{label}</label>
       <select
         id={htmlFor}
         value={value}
