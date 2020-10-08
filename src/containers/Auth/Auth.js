@@ -2,15 +2,13 @@ import React, {useState} from 'react';
 import './Auth.css'
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import axios from 'axios'
-
-function validateEmail(email)
-{
-  const re = /\S+@\S+\.\S+/;
-  return re.test(email);
-}
+import {validateEmail} from "../../utils/validateEmail";
+import {useDispatch} from "react-redux";
+import {auth} from "../../redux/actions/auth";
 
 const Auth = () => {
+  const dispatch = useDispatch()
+
   const [formControls, setFormControls] = useState({
     email: {
       value: '',
@@ -40,32 +38,21 @@ const Auth = () => {
 
   const [isFormValid, setIsFormValid] = useState(false)
 
-  const loginHandler = async () => {
-    const authData = {
-      email: formControls.email.value,
-      password: formControls.password.value,
-      returnSecureToken: true
-    }
-    try {
-      const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAOXEOQqJlKjRBEughvA2XMokVWs082sEI', authData)
-      console.log(response)
-    } catch (e) {
-      console.error(e)
-    }
+  const loginHandler = () => {
+    dispatch(auth(
+      formControls.email.value,
+      formControls.password.value,
+      true
+    ))
+
   }
 
-  const registerHandler = async () => {
-    const authData = {
-      email: formControls.email.value,
-      password: formControls.password.value,
-      returnSecureToken: true
-    }
-    try {
-      const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAOXEOQqJlKjRBEughvA2XMokVWs082sEI', authData)
-      console.log(response)
-    } catch (e) {
-      console.error(e)
-    }
+  const registerHandler = () => {
+    dispatch(auth(
+      formControls.email.value,
+      formControls.password.value,
+      false
+    ))
   }
 
   const submitHandler = (event) => {

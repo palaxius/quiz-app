@@ -6,7 +6,8 @@ import Button from "../../components/Button/Button";
 import {createControl, validate, validateForm} from "../../form/formFramework";
 import Input from "../../components/Input/Input";
 import Select from "../../components/Select/Select";
-import axios from '../../axios/axios-quiz'
+import {useDispatch, useSelector} from "react-redux";
+import {createQuizQuestion, finishCreateQuiz} from "../../redux/actions/createQuiz";
 
 const createOptionControl = (number) => {
   return createControl({
@@ -30,7 +31,9 @@ const createFormControls = () => {
 }
 
 const QuizCreator = () => {
-  const [quiz, setQuiz] = useState([])
+  const dispatch = useDispatch()
+  const quiz = useSelector(state => state.create.quiz)
+
   const [formControls, setFormControls] = useState(createFormControls())
   const [rightAnswerId, setRightAnswerId] = useState(1)
   const [isFormValid, setIsFormValid] = useState(false)
@@ -40,43 +43,32 @@ const QuizCreator = () => {
   }
 
   const addQuestionHandler = () => {
-    const updatedQuiz = quiz.concat()
-    const index = quiz.length + 1
-
     const {question, option_1, option_2, option_3, option_4} = formControls
-
     const questionItem = {
       question: question.value,
-      id: index,
+      id: quiz.length + 1,
       rightAnswerId: rightAnswerId,
       answers: [
         {text: option_1.value, id: option_1.id},
         {text: option_2.value, id: option_2.id},
         {text: option_3.value, id: option_3.id},
         {text: option_4.value, id: option_4.id},
-      ]
+      ],
     }
 
-    updatedQuiz.push(questionItem)
+    dispatch(createQuizQuestion(questionItem))
 
-    setQuiz(updatedQuiz)
     setFormControls(createFormControls())
     setIsFormValid(false)
     setRightAnswerId(1)
   }
 
-  const createQuizHandler = async () => {
+  const createQuizHandler = () => {
+    dispatch(finishCreateQuiz())
 
-    try {
-        await axios.post('quizzes.json', quiz)
-        setQuiz([])
-        setFormControls(createFormControls())
-        setIsFormValid(false)
-        setRightAnswerId(1)
-        window.location.href = 'http://localhost:3000/';
-        } catch (e) {
-      console.error(e)
-    }
+    setFormControls(createFormControls())
+    setIsFormValid(false)
+    setRightAnswerId(1)
   }
 
   const changeHandler = (value, controlName) => {
@@ -108,7 +100,7 @@ const QuizCreator = () => {
             shouldValidate={!!control.validations}
             onChange={event => changeHandler(event.target.value, controlName)}
           />
-          { index === 0 && <hr/> }
+          { index === 0 && <hr style={{marginBottom: '10px'}}/> }
         </React.Fragment>
     )
     })
@@ -123,30 +115,26 @@ const QuizCreator = () => {
       <div>
         <h1>Quiz Creation</h1>
 
-        <form onSubmit={submitHandler}>
-
-          {renderControls()}
-
-          <Select
-            label='Correct answer'
-            value={rightAnswerId}
-            onChange={selectChangeHandler}
-            options={[
-              {text: 1, value: 1},
-              {text: 2, value: 2},
-              {text: 3, value: 3},
-              {text: 4, value: 4},
-            ]}
-          />
-
-          <Button
-            type='primary'
-            onClick={addQuestionHandler}
-            disabled={!isFormValid}
-          >
-            Add Question
-          </Button>
-
+          <form onSubmit={submitHandler}>
+            {renderControls()}
+            <Select
+              label='Correct answer'
+              value={rightAnswerId}
+              onChange={selectChangeHandler}
+              options={[
+                {text: 1, value: 1},
+                {text: 2, value: 2},
+                {text: 3, value: 3},
+                {text: 4, value: 4},
+              ]}
+            />
+            <Button
+              type='primary'
+              onClick={addQuestionHandler}
+              disabled={!isFormValid}
+            >
+              Add Question
+            </Button>
             <Button
               type='success'
               onClick={createQuizHandler}
@@ -155,7 +143,8 @@ const QuizCreator = () => {
               Create Quiz
             </Button>
 
-        </form>
+          </form>
+
       </div>
     </div>
   );

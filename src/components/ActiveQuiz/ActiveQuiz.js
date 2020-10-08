@@ -6,12 +6,14 @@ const ActiveQuiz = ({answers, question, onAnswerClick, quizLength, answerNumber,
   return (
     <div className='activeQuiz'>
       <p className='question'>
-        <span>
-          <strong>{answerNumber}.</strong>&nbsp;
+        <span className='question__text'>
+          <strong className='question__number'>{answerNumber}.</strong>
           {question}
         </span>
 
-        <small>{answerNumber} out of {quizLength}</small>
+        <small style={{minWidth: '60px'}}>
+          {answerNumber} out of {quizLength}
+        </small>
       </p>
 
     <AnswersList

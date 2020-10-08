@@ -12,7 +12,7 @@
 .input input {
     display: block;
     border: 1px solid #bebebe;
-    padding: 7px;
+    padding: 8px;
     width: 100%;
     outline: none;
     transition: all .3s ease-in-out;

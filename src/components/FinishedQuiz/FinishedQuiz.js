@@ -18,16 +18,16 @@ const FinishedQuiz = ({results, quiz, onRetry}) => {
           <li
             key={quizItem.id}
           >
-            <strong>{quizItem.id}</strong>.&nbsp;
-            {quizItem.question}
+            <strong>{quizItem.id}.</strong>
+            <p className='finishedQuiz__text'>{quizItem.question}</p>
             {
-              results[quizItem.id] === 'success' ? <CheckIcon className='success'/> : <ClearIcon className='error'/>
+              results[quizItem.id] === 'success' ? <CheckIcon className='success icon'/> : <ClearIcon className='error icon'/>
             }
           </li>
           )}
       </ul>
 
-      <p style={{marginTop: '10px', marginBottom: '15px'}}>Correct {correctAnswersNumber} out of {quiz.length}</p>
+      <p className='finishedQuiz__info'>Correct {correctAnswersNumber} out of {quiz.length}</p>
 
       <div>
         <Button onClick={onRetry} type='primary'>Repeat</Button>

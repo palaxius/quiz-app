@@ -9,5 +9,14 @@
 .question {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
+}
+
+.question__number {
+    margin-right: 8px;
+}
+.question__text {
+    max-width: 460px;
+    overflow-wrap: break-word;
+    margin-right: 10px;
 }

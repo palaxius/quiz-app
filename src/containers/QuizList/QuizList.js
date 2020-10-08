@@ -1,35 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
+
 import './QuizList.css'
+
 import {NavLink} from "react-router-dom";
-import axios from '../../axios/axios-quiz'
 import Loader from "../../components/Loader/LoaderItem";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchQuizzes} from "../../redux/actions/quiz";
 
 const QuizList = () => {
-  const [quizzes, setQuizzes] = useState([])
-  const [isLoaded, setIsLoaded] = useState(true)
+  const dispatch = useDispatch()
+  const quiz = useSelector(state => state.quiz)
 
   useEffect(() => {
-    async function fetchQuizzes() {
-      setIsLoaded(false)
-      const updatedQuizzes = []
-      await axios.get('quizzes.json').then(response => {
-        Object.keys(response.data).forEach((key, index) => {
-          updatedQuizzes.push({
-            id: key,
-            name: `Quiz №${index + 1}`
-          })
-        })
-
-        setQuizzes(updatedQuizzes)
-        setIsLoaded(true)
-      })
-    }
-
-    fetchQuizzes()
-  }, [])
+    dispatch(fetchQuizzes())
+  }, [dispatch])
 
   const renderQuizzes = () => {
-    return quizzes.map(quiz => (
+    return quiz.quizzes.map(quiz => (
       <li
         key={quiz.id}
       >
@@ -37,7 +24,8 @@ const QuizList = () => {
           {quiz.name}
         </NavLink>
       </li>
-    ))
+      )
+    )
   }
 
   return (
@@ -45,7 +33,7 @@ const QuizList = () => {
       <div>
         <h1>Quiz List</h1>
         <ul>
-          {!isLoaded ? <Loader /> : renderQuizzes()}
+          {quiz.loading && quiz.quizzes !== 0 ? <Loader /> : renderQuizzes()}
         </ul>
       </div>
     </div>
